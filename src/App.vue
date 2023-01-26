@@ -1,88 +1,59 @@
 <template>
-  <header>
-    <div class="logos">
-      <img
-        v-if="isDesktop"
-        alt="NW.js logo"
-        src="./assets/nw.png"
-      />
-      <img
-        alt="Vue logo"
-        src="./assets/logo.svg"
-      />
-    </div>
-
-    <div class="wrapper">
-      <HelloWorld :message="message" />
-      <hr />
-      <div class="flex">
-        <PiniaDemo />
-        <FsExample />
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <ResourceLinks />
-  </main>
+  <div class="background">
+    <router-view @data="fetchData"/>
+  </div>
 </template>
 
 <script>
-import FsExample from '@/components/FsExample.vue';
-import HelloWorld from '@/components/HelloWorld.vue';
-import PiniaDemo from '@/components/PiniaDemo.vue';
-import ResourceLinks from '@/components/ResourceLinks.vue';
+import { mapState, mapWritableState } from 'pinia';
+import { useDataStore } from '@/stores/data';
+import { useConnectionStore } from '@/stores/connection';
+
+const mysql = require('mysql2');
 
 export default {
   name: 'App',
-  components: {
-    FsExample,
-    HelloWorld,
-    PiniaDemo,
-    ResourceLinks
-  },
   computed: {
-    message: function () {
-      let message = 'Vue';
-      if (this.isDesktop) {
-        message = 'NW.js & ' + message;
-      }
-      return message;
+    ...mapWritableState(useDataStore, {
+      rooms: 'rooms',
+      people: 'people',
+      reservations: 'reservations'
+    }),
+    ...mapState(useConnectionStore, ['getCredentials'])
+  },
+  methods: {
+    fetchData () {
+      console.log('fetching data');
+      const connection = mysql.createConnection(this.getCredentials);
+      connection.query('SELECT * FROM room', (err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.rooms = results;
+        }
+      });
+      connection.query('SELECT * FROM people', (err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.people = results;
+        }
+      });
+      connection.query('SELECT * FROM room_availability', (err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.reservations = results;
+        }
+      });
     }
   }
 };
 </script>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logos {
-  display: block;
-  text-align: center;
-}
-.logos img {
-  max-width: 125px;
-  max-height: 125px;
-  margin: 0rem 1rem 2rem 1rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: 15px;
-  }
-
-  .logo {
-    margin: 0px 2rem 0px 0px;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+<style lang="scss" scoped>
+.background {
+  @include text();
+  background-color: $slate-200;
 }
 </style>

@@ -6,6 +6,14 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "./src/assets/_abstract.scss";'
+      }
+    }
+  },
   build: {
     // Make sure this matches the Chromium version built into NW.js
     target: 'chrome107',
@@ -28,5 +36,6 @@ export default defineConfig({
     setupFiles: [
       './tests/unit/setup.js'
     ]
-  }
+  },
+  lintOnSave: false
 });

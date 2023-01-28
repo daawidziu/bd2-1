@@ -17,7 +17,9 @@ export default {
     ...mapWritableState(useDataStore, {
       rooms: 'rooms',
       people: 'people',
-      reservations: 'reservations'
+      reservations: 'reservations',
+      transactions: 'transactions',
+      employees: 'employees',
     }),
     ...mapState(useConnectionStore, ['getCredentials'])
   },
@@ -44,6 +46,20 @@ export default {
           console.log(err);
         } else {
           this.reservations = results;
+        }
+      });
+      connection.query('SELECT * FROM transaction', (err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.transactions = results;
+        }
+      });
+      connection.query('SELECT * FROM employees', (err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.employees = results;
         }
       });
     }

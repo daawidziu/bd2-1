@@ -29,11 +29,6 @@ export default {
     return {
       menu: [
         {
-          name: 'DashBoard',
-          icon: 'fa-align-center',
-          link: '/app/'
-        },
-        {
           name: 'Rooms',
           icon: 'fa-bed',
           link: '/app/rooms'

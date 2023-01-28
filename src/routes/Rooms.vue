@@ -1,7 +1,7 @@
 <template>
   <AppLayout>
     <main>
-      <h2 class="title">Rooms</h2>
+      <h2 class="title" @click="$emit('data')">Rooms</h2>
       <ul class="list">
         <li v-for="room in rooms" :key="room.room_id" class="item">
           <v-icon name="fa-bed" color="darkgray" scale="1.5"/>
@@ -72,6 +72,7 @@ export default {
   }
 }
 .element {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

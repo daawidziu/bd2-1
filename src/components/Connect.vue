@@ -66,7 +66,7 @@ export default {
           this.error = err.message;
         } else {
           this.$emit('data');
-          this.$router.push('/app');
+          this.$router.push('/app/rooms');
         }
       });
     }

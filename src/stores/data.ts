@@ -5,5 +5,7 @@ export const useDataStore = defineStore('data', {
     rooms: [],
     people: [],
     reservations: [],
+    transactions: [],
+    employees: [],
   })
 });

@@ -17,12 +17,14 @@ addIcons(...Fa);
 
 const routes = [
   { path: '/', component: () => import('./routes/Login.vue') },
-  { path: '/app', component: () => import('./routes/Home.vue') },
   { path: '/app/rooms', component: () => import('./routes/Rooms.vue') },
   { path: '/app/customers', component: () => import('./routes/Customers.vue') },
   { path: '/app/customers/add', component: () => import('./routes/CustomersAdd.vue') },
   { path: '/app/customers/:id', component: () => import('./routes/CustomersDetails.vue') },
+  { path: '/app/customers/:id/edit', component: () => import('./routes/CustomersDetailsEdit.vue')},
+  { path: '/app/customers/:id/reservation', component: () => import('./routes/CustomersDetailsReservation.vue') },
   { path: '/app/employees', component: () => import('./routes/Employees.vue') },
+  { path: '/app/employees/add', component: () => import('./routes/EmployeesAdd.vue') },
 ];
 
 const router = createRouter({
